@@ -1,33 +1,14 @@
-package org.diwan.translation;
+package com.diwan.translation;
 
-import com.diwan.AltoDoc;
-import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.axis2.AxisFault;
-import org.diwan.soap.SoapServiceStub;
-import org.diwan.soap.SoapServiceStub.*;
+import com.diwan.soap.SoapServiceStub;
+import com.diwan.soap.SoapServiceStub.*;
 import java.io.*;
 import java.lang.String;
-import java.net.URL;
-import java.net.URLConnection;
 import javax.xml.stream.*;
 import javax.xml.stream.events.*;
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import javax.xml.parsers.*;
-import org.apache.http.HttpConnection;
-import org.w3c.dom.*;
-
-
-
-
-
-
 
 /**
  * @author Reham Diwan Software Limited
@@ -41,7 +22,6 @@ public class Translate {
     private String uri;
     private SoapServiceStub stub = null;
     private TranslateOptions options = null;
-    private long startTime;
 
     /**
      * Constructs class with default parameters.
@@ -85,7 +65,6 @@ public class Translate {
             options.setUser("siteuser");
 
         } catch (AxisFault e) {
-            e.printStackTrace();
             throw new TranslateFault(e.getReason());
         }
     }
@@ -140,16 +119,17 @@ public class Translate {
         }
 
         try {
+            long startTime = System.currentTimeMillis();
             SoapServiceStub.BreakSentences breakSentence = new SoapServiceStub.BreakSentences();
             breakSentence.setLanguage(language);
             breakSentence.setAppId(appid);
             breakSentence.setText(text);
 
             BreakSentencesResponse sentenceLen = stub.breakSentences(breakSentence);
- long endTime = System.currentTimeMillis();
-            long totalTime = startTime - endTime;
+            long endTime = System.currentTimeMillis();
+            long totalTime = endTime - startTime;
             if (totalTime < 1200) {
-                Thread.sleep(endTime);
+                Thread.sleep(1200 - totalTime);
             }
 
             return sentenceLen.getBreakSentencesResult().get_int();
@@ -460,10 +440,10 @@ public class Translate {
             translate.setTo(to);
             TranslateResponse result;
             result = stub.translate(translate);
-			  long endTime = System.currentTimeMillis();
-            long totalTime = startTime - endTime;
+			long endTime = System.currentTimeMillis();
+            long totalTime = endTime - startTime;
             if (totalTime < 1200) {
-                Thread.sleep(endTime);
+                Thread.sleep(1200 - totalTime);
             }
             return result.getTranslateResult();
         } catch (RemoteException e) {
@@ -541,11 +521,9 @@ public class Translate {
      * @return array of bytes of the xml file
      * @throws TranslateFault
      */
-
-  public void translateXML(String pid, String from, String to) {
-        try {
+    public byte[] translateXML(byte[] in, String from, String to) throws TranslateFault {
+        ByteArrayOutputStream xmlbytesout = new ByteArrayOutputStream();
             XMLEventWriter writer = null;
-            FileOutputStream fos = null;
             TreeMap<Integer, String> idOffsetMap = null;
             StringBuffer blockText = null;
             Boolean inTextBlock = false;
@@ -553,34 +531,16 @@ public class Translate {
             String currentTextLineID = null;
             String currentStringID = null;
             XMLEventFactory m_eventFactory = XMLEventFactory.newInstance();
-            ArrayList<String> pageId = AltoDoc.getPageIds(pid);
-            String altoPage = null;
-            OutputStream outStream = new OutputStream() {
 
-                @Override
-                public void write(int b) throws IOException {
-                    throw new UnsupportedOperationException("Not supported yet.");
-                }
-            };
             if (stub == null) {
-                try {
                     init();
-                } catch (TranslateFault ex) {
-                    Logger.getLogger(Translate.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-            int i = 0;
-            while (i < pageId.size()) {
-                altoPage = AltoDoc.getAlto(pageId.get(i));
-                StringReader serverStringReader = new StringReader(altoPage);
-                BufferedReader in = new BufferedReader(serverStringReader);
 
-                // DataInputStream in = new DataInputStream(uc.getInputStream());
                 try {
                     EventProducerConsumer ms = new EventProducerConsumer();
-                    XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(in);
-                    fos = new FileOutputStream("altoOutput.xml");
-                    writer = XMLOutputFactory.newInstance().createXMLEventWriter(fos);
+            XMLEventReader reader = XMLInputFactory.newInstance().
+                    createXMLEventReader(new ByteArrayInputStream(in));
+            writer = XMLOutputFactory.newInstance().createXMLEventWriter(xmlbytesout);
                     XMLEvent lastWhiteSpaceEvent = ms.getNewCharactersEvent(" ");
                     while (reader.hasNext()) {
                         XMLEvent event = (XMLEvent) reader.next();
@@ -600,9 +560,13 @@ public class Translate {
                                 // find the ID
                                 currentTextBlockID = iterateAttibutes(startEvent, "ID");
                             }
+
+                    // start of a text line
                             if (startEventName.equalsIgnoreCase("textline")) {
                                 currentTextLineID = iterateAttibutes(startEvent, "ID");
                             }
+
+                    // the alto string
                             if (startEventName.equalsIgnoreCase("string")) {
                                 currentStringID = iterateAttibutes(startEvent, "ID");
                                 boolean inHyph = false;
@@ -617,11 +581,15 @@ public class Translate {
                                     blockText.append(theString);
                                 }
                             }
+
+                    // space
                             if (startEventName.equalsIgnoreCase("sp")) {
                                 blockText.append(" ");
                             }
                         } // I am at the closing text block tag so insert sentences
-                        else if (currentStringID != null && event.getEventType() == XMLEvent.END_ELEMENT && event.asEndElement().getName().getLocalPart().equalsIgnoreCase("textblock")) {
+                else if (currentStringID != null
+                        && event.getEventType() == XMLEvent.END_ELEMENT
+                        && event.asEndElement().getName().getLocalPart().equalsIgnoreCase("textblock")) {
                             int[] sentences = breakSentences(blockText.toString(), from);
                             int sentenceStart = 0;
                             String sentenceStartID = idOffsetMap.firstEntry().getValue();
@@ -630,6 +598,7 @@ public class Translate {
                             for (int sentenceLength : sentences) {
                                 writer.add(ms.getNewSentenceEvent());
                                 int sentenceEnd = sentenceStart + sentenceLength - sentenceBreakDelta;
+
                                 // calculate the next sentence
                                 Integer previousKey = currentKey;
                                 while (currentKey != null && currentKey < sentenceEnd) {
@@ -651,7 +620,11 @@ public class Translate {
                                 writer.add(ms.getNewAltEvent());
                                 writer.add(ms.getNewAltLang(to));
                                 writer.add(lastWhiteSpaceEvent);
-                                String translatedString = translateLine(blockText.toString().substring(sentenceStart, sentenceEnd), from, to);
+
+                        String translatedString = translateLine(
+                                blockText.toString().substring(sentenceStart, sentenceEnd),
+                                from, to);
+
                                 writer.add(ms.getNewCharactersEvent(translatedString));
                                 writer.add(lastWhiteSpaceEvent);
                                 writer.add(ms.getAltEndEvent());
@@ -662,48 +635,18 @@ public class Translate {
                                 sentenceStart += sentenceLength;
                                 sentenceStartID = idOffsetMap.get(currentKey);
                             }
-                        } else if (event.getEventType() == XMLEvent.CHARACTERS && event.asCharacters().isWhiteSpace()) {
+                } else if (event.getEventType() == XMLEvent.CHARACTERS
+                        && event.asCharacters().isWhiteSpace()) {
                             lastWhiteSpaceEvent = event;
                         }
                         writer.add(event);
                     }
+            writer.flush();
                 } catch (Exception ex) {
-                    //nothing to do here move along
-                } finally {
-                    try {
-                        writer.flush();
-                        fos.close();
-                    } catch (IOException ex) {
-                        Logger.getLogger(Translate.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (XMLStreamException ex) {
-                        Logger.getLogger(Translate.class.getName()).log(Level.SEVERE, null, ex);
+            throw new TranslateFault(ex.getMessage());
                     }
-                }
-                i++;
-            }
-            URL url = new URL("http://dev.amuser-qstpb.com:8080/fedora/objects/iqra/part/" + pid + " /facet/F_MT/" + getLanguage(to));
-            HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
-            httpCon.setDoOutput(true);
-            httpCon.setRequestMethod("POST");
-            OutputStreamWriter out = new OutputStreamWriter(httpCon.getOutputStream());
-            System.out.println(httpCon.getResponseCode());
-            System.out.println(httpCon.getResponseMessage());
-            out.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Translate.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-
-    }
-    public String getLanguage(String lang) {
-        String stringLang = null;
-        if (lang.equalsIgnoreCase("ar")) {
-            stringLang = "ar_QA";
-        } else if (lang.equalsIgnoreCase("en")) {
-            stringLang = "en_EN";
-        }
-        return stringLang;
-
+        return xmlbytesout.toByteArray();
     }
 
     /**
