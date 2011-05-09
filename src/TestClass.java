@@ -1,10 +1,16 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import com.diwan.translation.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TestClass {
 
@@ -14,6 +20,35 @@ public class TestClass {
 		String[] textsArray = { "I want this translated", "to something",
 				"in another language" };
 
+        if (args.length == 2)
+        {
+            FileInputStream fis = null;
+            try {
+                System.out.println("TranslateXML");
+                Translate t = new Translate(AppId, "text/plain", "general", "username", null);
+                File theXMLFile = new File(args[0]);
+                byte[] xmlbytes = new byte[(int) theXMLFile.length()];
+                fis = new FileInputStream(theXMLFile);
+                fis.read(xmlbytes);
+                byte[] xmlout = t.translateXML(xmlbytes, "en", "ar");
+                String value = new String(xmlout);
+                FileOutputStream fos = new FileOutputStream(args[1]);
+                fos.write(xmlout);
+                fos.close();
+                System.out.println(value);
+            } catch (IOException ex) {
+                Logger.getLogger(TestClass.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    fis.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(TestClass.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            System.exit(0);
+        }
+        
 		try {
             System.out.println("Terminal output encoding is: " + System.getProperty("file.encoding"));
 			Translate t = new Translate(AppId, "text/plain", "general", "username", null);
