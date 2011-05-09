@@ -113,7 +113,7 @@ public class Translate {
      * @return array that contains length of each sentence
      * @throws TranslateFault
      */
-    public int[] breakSentences(String text, String language) throws TranslateFault , InterruptedException {
+    public int[] breakSentences(String text, String language) throws TranslateFault {
         if (stub == null) {
             init();
         }
@@ -134,6 +134,8 @@ public class Translate {
 
             return sentenceLen.getBreakSentencesResult().get_int();
         } catch (RemoteException e) {
+            throw new TranslateFault(e.getMessage());
+        } catch (InterruptedException e) {
             throw new TranslateFault(e.getMessage());
         }
     }
@@ -425,8 +427,7 @@ public class Translate {
      * @return the translated line
      * @throws TranslateFault
      */
-    public String translateLine(String text, String from, String to)
-            throws TranslateFault , InterruptedException {
+    public String translateLine(String text, String from, String to) throws TranslateFault {
         if (stub == null) {
             init();
         }
@@ -440,16 +441,19 @@ public class Translate {
             translate.setTo(to);
             TranslateResponse result;
             result = stub.translate(translate);
-			long endTime = System.currentTimeMillis();
+            long endTime = System.currentTimeMillis();
             long totalTime = endTime - startTime;
             if (totalTime < 1200) {
                 Thread.sleep(1200 - totalTime);
             }
             return result.getTranslateResult();
+        }
+        catch (InterruptedException e) {
+            throw new TranslateFault(e.getMessage());
         } catch (RemoteException e) {
             if (e.getMessage().contains("NoTranslationFound")) {
                 return text;
-			} else if (e.getMessage().contains("V2_Soap")) {
+            } else if (e.getMessage().contains("V2_Soap")) {
                 try {
                     Thread.sleep(60000);
                     SoapServiceStub.Translate translate = new SoapServiceStub.Translate();
@@ -501,8 +505,9 @@ public class Translate {
             TranslateArrayResponse[] t = translateArrayResponse.getTranslateArrayResult().getTranslateArrayResponse();
             TranslateArrayResult[] result = new TranslateArrayResult[t.length];
             int i = 0;
-            for (TranslateArrayResponse t1 : t)
+            for (TranslateArrayResponse t1 : t) {
                 result[i++] = new TranslateArrayResult(t1);
+            }
             return result;
         } catch (RemoteException e) {
             throw new TranslateFault(e.getMessage());
@@ -523,128 +528,128 @@ public class Translate {
      */
     public byte[] translateXML(byte[] in, String from, String to) throws TranslateFault {
         ByteArrayOutputStream xmlbytesout = new ByteArrayOutputStream();
-            XMLEventWriter writer = null;
-            TreeMap<Integer, String> idOffsetMap = null;
-            StringBuffer blockText = null;
-            Boolean inTextBlock = false;
-            String currentTextBlockID = null;
-            String currentTextLineID = null;
-            String currentStringID = null;
-            XMLEventFactory m_eventFactory = XMLEventFactory.newInstance();
+        XMLEventWriter writer = null;
+        TreeMap<Integer, String> idOffsetMap = null;
+        StringBuffer blockText = null;
+        Boolean inTextBlock = false;
+        String currentTextBlockID = null;
+        String currentTextLineID = null;
+        String currentStringID = null;
+        XMLEventFactory m_eventFactory = XMLEventFactory.newInstance();
 
-            if (stub == null) {
-                    init();
-                }
+        if (stub == null) {
+            init();
+        }
 
-                try {
-                    EventProducerConsumer ms = new EventProducerConsumer();
+        try {
+            EventProducerConsumer ms = new EventProducerConsumer();
             XMLEventReader reader = XMLInputFactory.newInstance().
                     createXMLEventReader(new ByteArrayInputStream(in));
             writer = XMLOutputFactory.newInstance().createXMLEventWriter(xmlbytesout);
-                    XMLEvent lastWhiteSpaceEvent = ms.getNewCharactersEvent(" ");
-                    while (reader.hasNext()) {
-                        XMLEvent event = (XMLEvent) reader.next();
-                        // detect start element
-                        if (event.getEventType() == XMLEvent.START_ELEMENT) {
-                            StartElement startEvent = event.asStartElement();
-                            String startEventName = startEvent.getName().getLocalPart();
-                            // detect start of a text block
-                            if (startEventName.equalsIgnoreCase("textblock")) {
-                                // initial state for a new text block
-                                inTextBlock = true;
-                                idOffsetMap = new TreeMap();
-                                blockText = new StringBuffer();
-                                currentTextBlockID = null;
-                                currentTextLineID = null;
-                                currentStringID = null;
-                                // find the ID
-                                currentTextBlockID = iterateAttibutes(startEvent, "ID");
-                            }
+            XMLEvent lastWhiteSpaceEvent = ms.getNewCharactersEvent(" ");
+            while (reader.hasNext()) {
+                XMLEvent event = (XMLEvent) reader.next();
+                // detect start element
+                if (event.getEventType() == XMLEvent.START_ELEMENT) {
+                    StartElement startEvent = event.asStartElement();
+                    String startEventName = startEvent.getName().getLocalPart();
+                    // detect start of a text block
+                    if (startEventName.equalsIgnoreCase("textblock")) {
+                        // initial state for a new text block
+                        inTextBlock = true;
+                        idOffsetMap = new TreeMap();
+                        blockText = new StringBuffer();
+                        currentTextBlockID = null;
+                        currentTextLineID = null;
+                        currentStringID = null;
+                        // find the ID
+                        currentTextBlockID = iterateAttibutes(startEvent, "ID");
+                    }
 
                     // start of a text line
-                            if (startEventName.equalsIgnoreCase("textline")) {
-                                currentTextLineID = iterateAttibutes(startEvent, "ID");
-                            }
+                    if (startEventName.equalsIgnoreCase("textline")) {
+                        currentTextLineID = iterateAttibutes(startEvent, "ID");
+                    }
 
                     // the alto string
-                            if (startEventName.equalsIgnoreCase("string")) {
-                                currentStringID = iterateAttibutes(startEvent, "ID");
-                                boolean inHyph = false;
-                                String theString = null;
-                                if (iterateAttibutes(startEvent, "subs_type") != null) {
-                                    inHyph = true;
-                                    theString = iterateAttibutes(startEvent, "SUBS_CONTENT");
-                                } else {
-                                    inHyph = false;
-                                    theString = iterateAttibutes(startEvent, "content");
-                                    idOffsetMap.put(new Integer(blockText.length()), currentStringID);
-                                    blockText.append(theString);
-                                }
-                            }
+                    if (startEventName.equalsIgnoreCase("string")) {
+                        currentStringID = iterateAttibutes(startEvent, "ID");
+                        boolean inHyph = false;
+                        String theString = null;
+                        if (iterateAttibutes(startEvent, "subs_type") != null) {
+                            inHyph = true;
+                            theString = iterateAttibutes(startEvent, "SUBS_CONTENT");
+                        } else {
+                            inHyph = false;
+                            theString = iterateAttibutes(startEvent, "content");
+                            idOffsetMap.put(new Integer(blockText.length()), currentStringID);
+                            blockText.append(theString);
+                        }
+                    }
 
                     // space
-                            if (startEventName.equalsIgnoreCase("sp")) {
-                                blockText.append(" ");
-                            }
-                        } // I am at the closing text block tag so insert sentences
+                    if (startEventName.equalsIgnoreCase("sp")) {
+                        blockText.append(" ");
+                    }
+                } // I am at the closing text block tag so insert sentences
                 else if (currentStringID != null
                         && event.getEventType() == XMLEvent.END_ELEMENT
                         && event.asEndElement().getName().getLocalPart().equalsIgnoreCase("textblock")) {
-                            int[] sentences = breakSentences(blockText.toString(), from);
-                            int sentenceStart = 0;
-                            String sentenceStartID = idOffsetMap.firstEntry().getValue();
-                            Integer currentKey = idOffsetMap.firstKey();
-                            int sentenceBreakDelta = 0;
-                            for (int sentenceLength : sentences) {
-                                writer.add(ms.getNewSentenceEvent());
-                                int sentenceEnd = sentenceStart + sentenceLength - sentenceBreakDelta;
+                    int[] sentences = breakSentences(blockText.toString(), from);
+                    int sentenceStart = 0;
+                    String sentenceStartID = idOffsetMap.firstEntry().getValue();
+                    Integer currentKey = idOffsetMap.firstKey();
+                    int sentenceBreakDelta = 0;
+                    for (int sentenceLength : sentences) {
+                        writer.add(ms.getNewSentenceEvent());
+                        int sentenceEnd = sentenceStart + sentenceLength - sentenceBreakDelta;
 
-                                // calculate the next sentence
-                                Integer previousKey = currentKey;
-                                while (currentKey != null && currentKey < sentenceEnd) {
-                                    previousKey = currentKey;
-                                    currentKey = idOffsetMap.higherKey(currentKey);
-                                }
-                                if (currentKey == null) {
-                                    currentKey = sentenceEnd;
-                                }
-                                String sentenceEndID = idOffsetMap.get(previousKey);
-                                sentenceBreakDelta = currentKey - sentenceEnd;
-                                if (currentKey > sentenceEnd) {
-                                    sentenceEnd = currentKey;
-                                }
-                                writer.add(ms.getNewSentenceStartId(sentenceStartID));
-                                writer.add(ms.getNewSentenceEndId(sentenceEndID));
-                                writer.add(lastWhiteSpaceEvent);
-                                // calculate translated sentence
-                                writer.add(ms.getNewAltEvent());
-                                writer.add(ms.getNewAltLang(to));
-                                writer.add(lastWhiteSpaceEvent);
+                        // calculate the next sentence
+                        Integer previousKey = currentKey;
+                        while (currentKey != null && currentKey < sentenceEnd) {
+                            previousKey = currentKey;
+                            currentKey = idOffsetMap.higherKey(currentKey);
+                        }
+                        if (currentKey == null) {
+                            currentKey = sentenceEnd;
+                        }
+                        String sentenceEndID = idOffsetMap.get(previousKey);
+                        sentenceBreakDelta = currentKey - sentenceEnd;
+                        if (currentKey > sentenceEnd) {
+                            sentenceEnd = currentKey;
+                        }
+                        writer.add(ms.getNewSentenceStartId(sentenceStartID));
+                        writer.add(ms.getNewSentenceEndId(sentenceEndID));
+                        writer.add(lastWhiteSpaceEvent);
+                        // calculate translated sentence
+                        writer.add(ms.getNewAltEvent());
+                        writer.add(ms.getNewAltLang(to));
+                        writer.add(lastWhiteSpaceEvent);
 
                         String translatedString = translateLine(
                                 blockText.toString().substring(sentenceStart, sentenceEnd),
                                 from, to);
 
-                                writer.add(ms.getNewCharactersEvent(translatedString));
-                                writer.add(lastWhiteSpaceEvent);
-                                writer.add(ms.getAltEndEvent());
-                                writer.add(lastWhiteSpaceEvent);
-                                writer.add(ms.getSentenceEndEvent());
-                                writer.add(lastWhiteSpaceEvent);
-                                // set ending state for next iteration
-                                sentenceStart += sentenceLength;
-                                sentenceStartID = idOffsetMap.get(currentKey);
-                            }
+                        writer.add(ms.getNewCharactersEvent(translatedString));
+                        writer.add(lastWhiteSpaceEvent);
+                        writer.add(ms.getAltEndEvent());
+                        writer.add(lastWhiteSpaceEvent);
+                        writer.add(ms.getSentenceEndEvent());
+                        writer.add(lastWhiteSpaceEvent);
+                        // set ending state for next iteration
+                        sentenceStart += sentenceLength;
+                        sentenceStartID = idOffsetMap.get(currentKey);
+                    }
                 } else if (event.getEventType() == XMLEvent.CHARACTERS
                         && event.asCharacters().isWhiteSpace()) {
-                            lastWhiteSpaceEvent = event;
-                        }
-                        writer.add(event);
-                    }
+                    lastWhiteSpaceEvent = event;
+                }
+                writer.add(event);
+            }
             writer.flush();
-                } catch (Exception ex) {
+        } catch (Exception ex) {
             throw new TranslateFault(ex.getMessage());
-                    }
+        }
 
         return xmlbytesout.toByteArray();
     }
@@ -870,14 +875,13 @@ public class Translate {
             return m_eventFactory.createEndElement("", null, name);
         }
     }
-    public static class TranslateArrayResult {
 
+    public static class TranslateArrayResult {
 
         /**
          * field for Error
          */
         protected java.lang.String localError;
-
         /**
          * field for From
          */
@@ -886,28 +890,24 @@ public class Translate {
          *  for this attribute. It will be used to determine whether to include this field
          *  in the serialized XML
          */
-
         /**
          * field for OriginalTextSentenceLengths
          */
         protected int[] localOriginalTextSentenceLengths;
-
         /**
          * field for State
          */
         protected java.lang.String localState;
-
         /**
          * field for TranslatedText
          */
         protected java.lang.String localTranslatedText;
-
         /**
          * field for TranslatedTextSentenceLengths
          */
         protected int[] localTranslatedTextSentenceLengths;
 
-        public TranslateArrayResult (TranslateArrayResponse t) {
+        public TranslateArrayResult(TranslateArrayResponse t) {
             localError = t.getError();
             localState = t.getState();
             localFrom = t.getFrom();
@@ -915,6 +915,7 @@ public class Translate {
             localTranslatedText = t.getTranslatedText();
             localTranslatedTextSentenceLengths = t.getTranslatedTextSentenceLengths().get_int();
         }
+
         /**
          * @return the localError
          */
@@ -998,6 +999,5 @@ public class Translate {
         public void setTranslatedTextSentenceLengths(int[] localTranslatedTextSentenceLengths) {
             this.localTranslatedTextSentenceLengths = localTranslatedTextSentenceLengths;
         }
-
     }
 }
