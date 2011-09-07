@@ -18,7 +18,7 @@
     </HEAD>
 
     <BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#FF0000" VLINK="#800000" ALINK="#FF00FF" BACKGROUND="?">
-        <form name="form" action="Translate" method="post" charset="UTF-8" accept-charset="UTF-8">
+        <form name="form" action="Translate" method="post" accept-charset="utf-8">
             XML
             <br>
             <textarea rows="30" cols="50" name="data">

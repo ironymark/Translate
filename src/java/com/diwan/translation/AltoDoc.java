@@ -7,6 +7,8 @@ package com.diwan.translation;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -47,6 +49,54 @@ public class AltoDoc {
             }
         }
         return altoXml;
+    }
+
+    public static String getMetadata(String sourceUrl,String pid) {
+        InputStream in = null;
+        String altoXml = "", tmp = "";
+        try {
+            URL u = new URL(sourceUrl + "/objects/" + pid + "/datastreams/DC/content");
+            in = u.openStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+            while ((tmp = br.readLine()) != null) {
+                altoXml += tmp + "\n";
+            }
+            in.close();
+        } catch (Exception ex) {
+            System.err.println("not a URL Java understands.");
+            System.err.println(ex.toString());
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    System.err.println(e.toString());
+                }
+            }
+        }
+        return altoXml;
+    }
+
+    public static String getMTFacetDCUrl(String sourceURL, String outputFacet, String pid) {
+        String theMTFacet = null;
+        try {
+            Document doc = parserXML(sourceURL + "/objects/" + pid + "/datastreams/RELS-EXT/content");
+            NodeList hasMTFacet = doc.getElementsByTagName("hasFacet_" + outputFacet);
+            if (hasMTFacet != null) {
+                String value = hasMTFacet.item(0).getAttributes().getNamedItem("rdf:resource").getNodeValue();
+                if (value != null) {
+                    String pageId = value.split("/")[1];
+                    theMTFacet = sourceURL + "/objects/" + pageId + "/datastreams/DC";
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(AltoDoc.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            Logger.getLogger(AltoDoc.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(AltoDoc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return theMTFacet;
     }
 
     public static ArrayList<String> getPageIds(String sourceURL,String pid) {

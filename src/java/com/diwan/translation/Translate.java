@@ -1,5 +1,6 @@
 package com.diwan.translation;
 
+import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.logging.Level;
@@ -567,8 +568,77 @@ public class Translate {
         String currentTextBlockID = null;
         String currentTextLineID = null;
         String currentStringID = null;
+        HttpURLConnection httpCon = null;
 
         XMLEventFactory m_eventFactory = XMLEventFactory.newInstance();
+        
+        // Get and translate the MetaData
+        try {
+            String translatedDCUrl = AltoDoc.getMTFacetDCUrl(url, outputFacet, pid);
+            String metadata = AltoDoc.getMetadata(url, pid);
+            StringReader metadataStringReader = new StringReader(metadata);
+            BufferedReader in = new BufferedReader(metadataStringReader);
+            String elements[] = { "creator", "description", "publisher", "rights", "subject", "title" };
+            Set translateables = new HashSet(Arrays.asList(elements));
+            EventProducerConsumer ms = new EventProducerConsumer();
+            XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(in);
+            bos = new ByteArrayOutputStream();
+            writer = XMLOutputFactory.newInstance().createXMLEventWriter(bos);
+            XMLEvent lastWhiteSpaceEvent = ms.getNewCharactersEvent(" ");
+            String currentEventName = "";
+            while (reader.hasNext()) {
+                XMLEvent event = (XMLEvent) reader.next();
+                // detect start element
+                if (event.getEventType() == XMLEvent.START_ELEMENT)
+                    currentEventName = event.asStartElement().getName().getLocalPart();
+                if (event.getEventType() == XMLEvent.END_ELEMENT)
+                    currentEventName = "";
+                if (event.getEventType() == XMLEvent.CHARACTERS) {
+                    String characters = event.asCharacters().getData().toLowerCase();
+                    // translate the characters if I am in a translateable element
+                    if (translateables.contains(currentEventName)) {
+                        try {
+                            String translatedString = translateLine(characters, from, to);
+                            event = ms.getNewCharactersEvent(translatedString);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Translate.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (TranslateFault ex) {
+                            System.out.println(ex.toString());
+                            System.out.println("Metadata translate fail at: " + currentEventName + " Word: " + characters + " From: " + from + " To: " + to);
+                        }
+                    }
+                }
+                //finally write the event
+                writer.add(event);
+            }
+            writer.flush();
+            if (outputFacet.length() > 0) {
+                URL outputUrl = new URL(translatedDCUrl);
+                httpCon = (HttpURLConnection) outputUrl.openConnection();
+                httpCon.setDoOutput(true);
+                httpCon.setUseCaches(false);
+                httpCon.setRequestProperty("Authorization", "Basic " + BasicAuth.encode("IQRAUser", "!QraUs3r"));
+                httpCon.setRequestProperty("Content-Type", "text/xml");
+                httpCon.setRequestMethod("POST");
+                httpCon.setRequestProperty("Content-Length", "" + Integer.toString(bos.toByteArray().length));
+                DataOutputStream wr = new DataOutputStream(httpCon.getOutputStream());
+                wr.write(bos.toByteArray());
+                wr.flush();
+                wr.close();
+                System.out.println(httpCon.getResponseCode());
+                System.out.println(httpCon.getResponseMessage());
+            }
+            System.out.println("Matadata written to: " + translatedDCUrl);
+        } catch (IOException ex) {
+            Logger.getLogger(Translate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (XMLStreamException ex) {
+            Logger.getLogger(Translate.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (httpCon != null) {
+                httpCon.disconnect();
+            }
+        }
+        
         ArrayList<String> pageId = AltoDoc.getPageIds(url, pid);
         String altoPage = null;
 
@@ -577,7 +647,6 @@ public class Translate {
             altoPage = AltoDoc.getAlto(url, pageId.get(i));
             StringReader serverStringReader = new StringReader(altoPage);
             BufferedReader in = new BufferedReader(serverStringReader);
-            HttpURLConnection httpCon = null;
             // DataInputStream in = new DataInputStream(uc.getInputStream());
             try {
                 EventProducerConsumer ms = new EventProducerConsumer();
