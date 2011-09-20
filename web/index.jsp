@@ -24,7 +24,7 @@
             <textarea rows="30" cols="50" name="data">
 <?xml version='1.0' encoding='UTF-8'?>
 <descriptor>
-     <ticketId>iqra:55</ticketId>
+     <ticketId>iqra:3390</ticketId>
      <inputFacet language="EN_UK">F_OCR</inputFacet>
      <outputFacet language="AR_AR">F_MT_ar_QA</outputFacet>
      <user>169</user>

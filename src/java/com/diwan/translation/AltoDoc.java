@@ -4,6 +4,7 @@
  */
 package com.diwan.translation;
 
+import com.diwan.Util;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -37,14 +38,14 @@ public class AltoDoc {
             }
             in.close();
         } catch (Exception ex) {
-            System.err.println("not a URL Java understands.");
-            System.err.println(ex.toString());
+            Util.logError("not a URL Java understands.");
+            Util.logError(ex.toString());
         } finally {
             if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    System.err.println(e.toString());
+                    Util.logError(e.toString());
                 }
             }
         }
@@ -63,14 +64,14 @@ public class AltoDoc {
             }
             in.close();
         } catch (Exception ex) {
-            System.err.println("not a URL Java understands.");
-            System.err.println(ex.toString());
+            Util.logError("not a URL Java understands.");
+            Util.logError(ex.toString());
         } finally {
             if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    System.err.println(e.toString());
+                    Util.logError(e.toString());
                 }
             }
         }

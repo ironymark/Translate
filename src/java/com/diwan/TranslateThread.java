@@ -19,7 +19,7 @@ class TranslateThread extends Thread {
             String AppId = "6C9A92CF0DDDEF484F4C4ECEA2C82D8CE591A2AD";
             Translate t = new Translate(AppId, "text/plain", "general", "username", null);
             t.init();
-            System.out.println("TranslateXML");
+            Util.log("TranslateXML");
             t.translateXML(outer.sourceUrl, outer.ticketId, outer.inputLang, outer.outputLang, outer.outputFacet);
         } catch (TranslateFault ex) {
             Logger.getLogger(AltoTranslate.class.getName()).log(Level.SEVERE, null, ex);

@@ -27,7 +27,6 @@ import javax.xml.stream.events.XMLEvent;
  * @author adilmbpro
  */
 public class AltoTranslate extends HttpServlet {
-
     String ticketId;
     String inputLang;
     String outputLang;
@@ -43,11 +42,16 @@ public class AltoTranslate extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    @SuppressWarnings("CallToThreadRun")
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        Util.printer = out;
+
         try {
+            TranslateThread trans = new TranslateThread(this);
+
             /* TODO output your page here            */
             out.println("<html>");
             out.println("<head>");
@@ -89,15 +93,19 @@ public class AltoTranslate extends HttpServlet {
 
             }
 
+            if (Util.DEBUG) {
+                trans.run();
+            }
+            else {
+                Thread th = new Thread(trans);
+                if (th.isDaemon()) {
+                    th.setDaemon(false);
+                }
+                th.start();
+            }
+
             out.println("</body>");
             out.println("</html>");
-
-            TranslateThread trans = new TranslateThread(this);
-            Thread th = new Thread(trans);
-            if (th.isDaemon()) {
-                th.setDaemon(false);
-            }
-            th.start();
 
         } catch (XMLStreamException ex) {
             Logger.getLogger(AltoTranslate.class.getName()).log(Level.SEVERE, null, ex);

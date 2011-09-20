@@ -1,6 +1,6 @@
 package com.diwan.translation;
 
-import java.net.MalformedURLException;
+import com.diwan.Util;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.logging.Level;
@@ -136,7 +136,7 @@ public class Translate {
             addTranslation.setUser(user);
             addTranslation.setUri(uri);
             stub.addTranslation(addTranslation);
-            System.out.println("Your translation has been added");
+            Util.log("Your translation has been added");
         } catch (RemoteException e) {
             throw new TranslateFault(e.getMessage());
         }
@@ -603,8 +603,8 @@ public class Translate {
                         } catch (InterruptedException ex) {
                             Logger.getLogger(Translate.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (TranslateFault ex) {
-                            System.out.println(ex.toString());
-                            System.out.println("Metadata translate fail at: " + currentEventName + " Word: " + characters + " From: " + from + " To: " + to);
+                            Util.log(ex.toString());
+                            Util.log("Metadata translate fail at: " + currentEventName + " Word: " + characters + " From: " + from + " To: " + to);
                         }
                     }
                 }
@@ -625,10 +625,10 @@ public class Translate {
                 wr.write(bos.toByteArray());
                 wr.flush();
                 wr.close();
-                System.out.println(httpCon.getResponseCode());
-                System.out.println(httpCon.getResponseMessage());
+                Util.log(httpCon.getResponseCode());
+                Util.log(httpCon.getResponseMessage());
             }
-            System.out.println("Matadata written to: " + translatedDCUrl);
+            Util.log("Metadata written to: " + translatedDCUrl);
         } catch (IOException ex) {
             Logger.getLogger(Translate.class.getName()).log(Level.SEVERE, null, ex);
         } catch (XMLStreamException ex) {
@@ -710,7 +710,7 @@ public class Translate {
                                 }
                                 translatedStrings = translateArray(sentenceStrings, from, to);
                             } catch (TranslateFault ex) {
-                                System.out.println("Translate Array failed (will translate lines) at: " + pid + " Word: " + sentenceArray[0].startID + " Page: " + pageId.get(i) + " From: " + from + " To: " + to);
+                                Util.log("Translate Array failed (will translate lines) at: " + pid + " Word: " + sentenceArray[0].startID + " Page: " + pageId.get(i) + " From: " + from + " To: " + to);
                                 translatedStrings = null;
                             }
 
@@ -735,8 +735,8 @@ public class Translate {
                                         String translatedString = translateLine(theSentence.sentence, from, to);
                                         writer.add(ms.getNewCharactersEvent(translatedString));
                                     } catch (TranslateFault ex) {
-                                        System.out.println(ex.toString());
-                                        System.out.println("Translate fail at Book: " + pid + " Word: " + theSentence.startID + " Page: " + pageId.get(i) + " From: " + from + " To: " + to);
+                                        Util.log(ex.toString());
+                                        Util.log("Translate fail at Book: " + pid + " Word: " + theSentence.startID + " Page: " + pageId.get(i) + " From: " + from + " To: " + to);
                                         writer.add(ms.getNewCharactersEvent(theSentence.sentence));
                                     }
                                 }
@@ -749,8 +749,8 @@ public class Translate {
                             }
                         } catch (TranslateFault ex) {
                             //break sentence failed so insert single dummy word here
-                            System.out.println(ex.toString());
-                            System.out.println("Break sentence fail at Book: " + pid + " Page: " + pageId.get(i) + " From: " + from + " To: " + to);
+                            Util.log(ex.toString());
+                            Util.log("Break sentence fail at Book: " + pid + " Page: " + pageId.get(i) + " From: " + from + " To: " + to);
                             String sentenceStartID = idOffsetMap.firstEntry().getValue();
                             writer.add(ms.getNewSentenceEvent());
                             writer.add(ms.getNewSentenceStartId(sentenceStartID));
@@ -785,13 +785,13 @@ public class Translate {
                     wr.write(bos.toByteArray());
                     wr.flush();
                     wr.close();
-                    System.out.println(httpCon.getResponseCode());
-                    System.out.println(httpCon.getResponseMessage());
+                    Util.log(httpCon.getResponseCode());
+                    Util.log(httpCon.getResponseMessage());
                 }
-                System.out.println("Page: " + (i + 1) + " of " + pageId.size());
+                Util.log("Page: " + (i + 1) + " of " + pageId.size());
             } catch (Exception ex) {
                 //nothing to do here move along
-                System.out.println(ex.toString());
+                Util.log(ex.toString());
             } finally {
                 if (httpCon != null) {
                     httpCon.disconnect();
