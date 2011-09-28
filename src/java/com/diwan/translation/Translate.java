@@ -574,12 +574,17 @@ public class Translate {
         
         // Get and translate the MetaData
         try {
+            final String identifier = "identifier";
+            final String ticketID = "ticketid";
+            String elements[] = { "creator", "description", "publisher", "rights", "subject", "title", ticketID, identifier };
+            Set translateables = new HashSet(Arrays.asList(elements));
+
             String translatedDCUrl = AltoDoc.getMTFacetDCUrl(url, outputFacet, pid);
             String metadata = AltoDoc.getMetadata(url, pid);
             StringReader metadataStringReader = new StringReader(metadata);
             BufferedReader in = new BufferedReader(metadataStringReader);
-            String elements[] = { "creator", "description", "publisher", "rights", "subject", "title" };
-            Set translateables = new HashSet(Arrays.asList(elements));
+            String startingEventName = "";
+            boolean hasTicketID = false;
             EventProducerConsumer ms = new EventProducerConsumer();
             XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(in);
             bos = new ByteArrayOutputStream();
@@ -588,18 +593,43 @@ public class Translate {
             String currentEventName = "";
             while (reader.hasNext()) {
                 XMLEvent event = (XMLEvent) reader.next();
+
                 // detect start element
-                if (event.getEventType() == XMLEvent.START_ELEMENT)
-                    currentEventName = event.asStartElement().getName().getLocalPart();
-                if (event.getEventType() == XMLEvent.END_ELEMENT)
+                if (event.getEventType() == XMLEvent.START_ELEMENT) {
+                    currentEventName = event.asStartElement().getName().getLocalPart().toLowerCase();
+                    if (startingEventName.isEmpty())
+                        startingEventName = currentEventName;
+                }
+
+                if (event.getEventType() == XMLEvent.END_ELEMENT) {
+                    //write out the ticket id at the end if one does not exist
+                    if (event.asEndElement().getName().getLocalPart().equalsIgnoreCase(startingEventName) && !hasTicketID) {
+                        //write the originating ticket ID
+                        writer.add(ms.getNamedStartEvent(ticketID));
+                        writer.add(ms.getNewCharactersEvent(pid));
+                        writer.add(ms.getNamedEndEvent(ticketID));
+                    }
                     currentEventName = "";
+                }
+
                 if (event.getEventType() == XMLEvent.CHARACTERS) {
                     String characters = event.asCharacters().getData().toLowerCase();
                     // translate the characters if I am in a translateable element
                     if (translateables.contains(currentEventName)) {
                         try {
-                            String translatedString = translateLine(characters, from, to);
-                            event = ms.getNewCharactersEvent(translatedString);
+                            if (currentEventName.equalsIgnoreCase(identifier)) {
+                                // identifier - make it the pid of the MT DC
+                                String[] mTfacetPIDParts = translatedDCUrl.split("/");
+                                event = ms.getNewCharactersEvent(mTfacetPIDParts[5]);
+                            } else if (currentEventName.equalsIgnoreCase(ticketID)) {
+                                // ticket id - make sure it is the original pid of the book
+                                event = ms.getNewCharactersEvent(pid);
+                                hasTicketID = true;
+                            }
+                            else {
+                                String translatedString = translateLine(characters, from, to);
+                                event = ms.getNewCharactersEvent(translatedString);
+                            }
                         } catch (InterruptedException ex) {
                             Logger.getLogger(Translate.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (TranslateFault ex) {
@@ -611,7 +641,9 @@ public class Translate {
                 //finally write the event
                 writer.add(event);
             }
+
             writer.flush();
+
             if (outputFacet.length() > 0) {
                 URL outputUrl = new URL(translatedDCUrl);
                 httpCon = (HttpURLConnection) outputUrl.openConnection();
@@ -773,7 +805,7 @@ public class Translate {
                 }
                 writer.flush();
                 if (outputFacet.length() > 0) {
-                    URL outputUrl = new URL(url + "/objects/" + pageId.get(i) + "/datastreams/" + outputFacet);
+                    URL outputUrl = new URL(url + "/objects/iqra/obj/" + pageId.get(i) + "/datastreams/" + outputFacet + "/alto");
                     httpCon = (HttpURLConnection) outputUrl.openConnection();
                     httpCon.setDoOutput(true);
                     httpCon.setUseCaches(false);
@@ -1065,6 +1097,22 @@ public class Translate {
          */
         public EndElement getSentenceEndEvent() {
             String name = "Sentence";
+            return m_eventFactory.createEndElement("", null, name);
+        }
+
+        /**
+         * Ending the sentence
+         * @return the end element
+         */
+        public StartElement getNamedStartEvent(String name) {
+            return m_eventFactory.createStartElement("", null, name);
+        }
+
+        /**
+         * Ending the sentence
+         * @return the end element
+         */
+        public EndElement getNamedEndEvent(String name) {
             return m_eventFactory.createEndElement("", null, name);
         }
 
