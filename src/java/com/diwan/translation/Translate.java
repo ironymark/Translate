@@ -575,8 +575,9 @@ public class Translate {
         // Get and translate the MetaData
         try {
             final String identifier = "identifier";
-            final String ticketID = "ticketid";
-            String elements[] = { "creator", "description", "publisher", "rights", "subject", "title", ticketID, identifier };
+            final String ticketID = "ticketId";
+            final String languageID = "language";
+            String elements[] = { "creator", "description", "publisher", "rights", "subject", "title", ticketID, identifier, languageID };
             Set translateables = new HashSet(Arrays.asList(elements));
 
             String translatedDCUrl = AltoDoc.getMTFacetDCUrl(url, outputFacet, pid);
@@ -625,6 +626,9 @@ public class Translate {
                                 // ticket id - make sure it is the original pid of the book
                                 event = ms.getNewCharactersEvent(pid);
                                 hasTicketID = true;
+                            } else if (currentEventName.equalsIgnoreCase(languageID)) {
+                                //set the destination language here
+                                event = ms.getNewCharactersEvent(getLanguage(to));
                             }
                             else {
                                 String translatedString = translateLine(characters, from, to);
