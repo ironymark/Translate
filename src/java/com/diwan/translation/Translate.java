@@ -614,7 +614,7 @@ public class Translate {
                 }
 
                 if (event.getEventType() == XMLEvent.CHARACTERS) {
-                    String characters = event.asCharacters().getData().toLowerCase();
+                    String characters = event.asCharacters().getData();
                     // translate the characters if I am in a translateable element
                     if (translateables.contains(currentEventName)) {
                         try {
