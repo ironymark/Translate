@@ -1,5 +1,28 @@
+/*------------------------------------------------------------------------------
+
+
+                     COPYRIGHT 2001-2012 DIWAN SOFTWARE LTD
+   
+                    DIWAN SOFTWARE LTD PROPRIETARY INFORMATION
+   
+        This software is supplied under the terms of a license agreement
+        or non-disclosure agreement with Diwan Software Ltd and may not
+        be copied or disclosed or modified except in accordance with the
+        terms of that agreement.
+   
+   
+   
+        FileName:       Translate.java
+        Version:        1.0.5
+        Description:    XML Parsing and Bing Translator Invocation
+
+------------------------------------------------------------------------------
+CHANGES
+1.0.5 A.Allawi - First release to Zynga
+------------------------------------------------------------------------------*/
 package com.diwan.translation;
 
+import com.diwan.BIDI.ShapeArabic;
 import java.rmi.RemoteException;
 import java.util.*;
 import org.apache.axis2.AxisFault;
@@ -7,6 +30,8 @@ import com.diwan.soap.SoapServiceStub;
 import com.diwan.soap.SoapServiceStub.*;
 import java.io.*;
 import java.lang.String;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.stream.*;
 import javax.xml.stream.events.*;
 
@@ -22,6 +47,11 @@ public class Translate {
     private String uri;
     private SoapServiceStub stub = null;
     private TranslateOptions options = null;
+
+    public static final int TRANSLATE = 1;
+    public static final int SHAPE = 2;
+    public static final int TRANSLATE_AND_SHAPE = 3;
+    public static final String[] EXCEPTIONS = {"Virals", "mfs_search_text"};
 
     /**
      * Constructs class with default parameters.
@@ -310,12 +340,12 @@ public class Translate {
      */
     public String[] getTranslations(String text, String from, String to, int maxtranslations)
             throws TranslateFault {
-        String[] matches = null;
         if (stub == null) {
             init();
         }
 
         try {
+            String[] matches;
             SoapServiceStub.GetTranslations getTranslation = new SoapServiceStub.GetTranslations();
             getTranslation.setAppId(appid);
             getTranslation.setText(text);
@@ -526,16 +556,20 @@ public class Translate {
      * @return array of bytes of the xml file
      * @throws TranslateFault
      */
-    public byte[] translateXML(byte[] in, String from, String to) throws TranslateFault {
+    public byte[] translateXML(byte[] in, String from, String to, int action) throws TranslateFault {
         ByteArrayOutputStream xmlbytesout = new ByteArrayOutputStream();
-        XMLEventWriter writer = null;
-        TreeMap<Integer, String> idOffsetMap = null;
+        XMLEventWriter writer;
         StringBuffer blockText = null;
-        Boolean inTextBlock = false;
-        String currentTextBlockID = null;
-        String currentTextLineID = null;
-        String currentStringID = null;
-        XMLEventFactory m_eventFactory = XMLEventFactory.newInstance();
+        
+        Boolean inTranslateable = false;
+        Boolean inString = false;
+        Boolean dontShapePkg = false;
+        Boolean dontShapeString = false;
+        boolean skipVariation = false;
+        Boolean stopNow = false;
+        Boolean inPackage = false;
+        
+        HashSet exceptions = new HashSet (Arrays.asList(EXCEPTIONS));
 
         if (stub == null) {
             init();
@@ -543,111 +577,121 @@ public class Translate {
 
         try {
             EventProducerConsumer ms = new EventProducerConsumer();
-            XMLEventReader reader = XMLInputFactory.newInstance().
-                    createXMLEventReader(new ByteArrayInputStream(in));
-            writer = XMLOutputFactory.newInstance().createXMLEventWriter(xmlbytesout);
-            XMLEvent lastWhiteSpaceEvent = ms.getNewCharactersEvent(" ");
-            while (reader.hasNext()) {
-                XMLEvent event = (XMLEvent) reader.next();
-                // detect start element
-                if (event.getEventType() == XMLEvent.START_ELEMENT) {
-                    StartElement startEvent = event.asStartElement();
-                    String startEventName = startEvent.getName().getLocalPart();
-                    // detect start of a text block
-                    if (startEventName.equalsIgnoreCase("textblock")) {
-                        // initial state for a new text block
-                        inTextBlock = true;
-                        idOffsetMap = new TreeMap();
-                        blockText = new StringBuffer();
-                        currentTextBlockID = null;
-                        currentTextLineID = null;
-                        currentStringID = null;
-                        // find the ID
-                        currentTextBlockID = iterateAttibutes(startEvent, "ID");
-                    }
+            XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(new ByteArrayInputStream(in));
+            writer = XMLOutputFactory.newInstance().createXMLEventWriter(xmlbytesout, "utf-8");
+            try {
+                while (reader.hasNext() && !stopNow) {
+                    XMLEvent event = (XMLEvent) reader.next();
 
-                    // start of a text line
-                    if (startEventName.equalsIgnoreCase("textline")) {
-                        currentTextLineID = iterateAttibutes(startEvent, "ID");
-                    }
-
-                    // the alto string
-                    if (startEventName.equalsIgnoreCase("string")) {
-                        currentStringID = iterateAttibutes(startEvent, "ID");
-                        boolean inHyph = false;
-                        String theString = null;
-                        if (iterateAttibutes(startEvent, "subs_type") != null) {
-                            inHyph = true;
-                            theString = iterateAttibutes(startEvent, "SUBS_CONTENT");
-                        } else {
-                            inHyph = false;
-                            theString = iterateAttibutes(startEvent, "content");
-                            idOffsetMap.put(new Integer(blockText.length()), currentStringID);
-                            blockText.append(theString);
+                    if (event.getEventType() == XMLEvent.START_ELEMENT) {
+                        StartElement startEvent = event.asStartElement();
+                        String startEventName = startEvent.getName().getLocalPart();
+                        
+                        if (startEventName.equalsIgnoreCase("pkg")) {
+                            inPackage = true;
+                            String name = iterateAttibutes(startEvent, "name");
+                            if (exceptions.contains(name))
+                                dontShapePkg = true;
+                            System.out.print(name + ": ");
+                        } else if (startEventName.equalsIgnoreCase("string")) {
+                            inString = true;
+                            String key = iterateAttibutes(startEvent, "key");
+                            if (exceptions.contains(key))
+                                dontShapeString = true;
+                            System.out.print(key + ": ");
+                        } else if (startEventName.equalsIgnoreCase("original")) {
+                            inTranslateable = true;
+                            blockText = new StringBuffer();
+                        } else if (startEventName.equalsIgnoreCase("variation")
+                                && action != TRANSLATE_AND_SHAPE) {
+                            inTranslateable = true;
+                            blockText = new StringBuffer();
+                        }                            
+                        else if (startEventName.equalsIgnoreCase("variation")) {
+                            skipVariation = true;
                         }
+                        writer.add(event);
                     }
-
-                    // space
-                    if (startEventName.equalsIgnoreCase("sp")) {
-                        blockText.append(" ");
+                    else if (event.getEventType() == XMLEvent.END_ELEMENT) {
+                        EndElement endEvent = event.asEndElement();
+                        String endEventName = endEvent.getName().getLocalPart();
+                        
+                        if (endEventName.equalsIgnoreCase("pkg")) {
+                            inPackage = false;
+                            dontShapePkg = false;
+                        }
+                        else if (endEventName.equalsIgnoreCase("string")) {
+                            inString = false;
+                            dontShapeString = false;
+                        }
+                        else if (endEventName.equalsIgnoreCase("original") || endEventName.equalsIgnoreCase("variation"))
+                        {
+                           // detect end of a text block
+                            if (endEventName.equalsIgnoreCase("original")) {
+                                inTranslateable = false;
+                            } else if (endEventName.equalsIgnoreCase("variation")) {
+                                skipVariation = false;
+                            }
+                            if (blockText.toString().length() > 0) {
+                                if ((action == TRANSLATE_AND_SHAPE || action == SHAPE)
+                                        && !dontShapePkg
+                                        && !dontShapeString) {
+                                    ShapeArabic shaper = new ShapeArabic(blockText.toString());
+                                    writer.add(ms.getNewCharactersEvent(shaper.getReorderedAndShaped()));
+                                } else {
+                                    writer.add(ms.getNewCharactersEvent(blockText.toString()));
+                                    System.out.println (blockText.toString());
+                                }
+                            }
+                        }
+                        writer.add(event);
+                    } // I am at the closing text block tag so insert sentences
+                    else if (event.getEventType() == XMLEvent.CHARACTERS && inTranslateable) 
+                    {
+                        Characters charEvent = event.asCharacters();
+                        if (charEvent.isWhiteSpace()) {
+                            writer.add(event);
+                        }
+                        // keep the old blockText if I am skipping variations
+                        else if (!skipVariation) {
+                            String theTranslateable = charEvent.getData();
+                            StringTokenizer tokened = new StringTokenizer(theTranslateable, "\t\n\r\f{}", true);
+                            Boolean inVariable = false;
+                            while (tokened.hasMoreTokens()) {
+                                String aToken = tokened.nextToken();
+                                if (aToken.length() > 1 && !inVariable) {
+                                    //only translate if the action is for translating
+                                    if (action == TRANSLATE_AND_SHAPE || action == TRANSLATE) {
+                                        String translatedString = translateLine(aToken, from, to);
+                                        blockText.append(translatedString);
+                                    } else {
+                                        blockText.append(aToken);
+                                    }
+                                } else if (aToken.equals("}")) {
+                                    inVariable = false;
+                                    blockText.append(aToken);
+                                } else if (aToken.equals("{") || inVariable) {
+                                    inVariable = true;
+                                    blockText.append(aToken);
+                                } else {
+                                    blockText.append(aToken);
+                                }
+                            }
+                        }
+                    } else {
+                        writer.add(event);
                     }
-                } // I am at the closing text block tag so insert sentences
-                else if (currentStringID != null
-                        && event.getEventType() == XMLEvent.END_ELEMENT
-                        && event.asEndElement().getName().getLocalPart().equalsIgnoreCase("textblock")) {
-                    int[] sentences = breakSentences(blockText.toString(), from);
-                    int sentenceStart = 0;
-                    String sentenceStartID = idOffsetMap.firstEntry().getValue();
-                    Integer currentKey = idOffsetMap.firstKey();
-                    int sentenceBreakDelta = 0;
-                    for (int sentenceLength : sentences) {
-                        writer.add(ms.getNewSentenceEvent());
-                        int sentenceEnd = sentenceStart + sentenceLength - sentenceBreakDelta;
-
-                        // calculate the next sentence
-                        Integer previousKey = currentKey;
-                        while (currentKey != null && currentKey < sentenceEnd) {
-                            previousKey = currentKey;
-                            currentKey = idOffsetMap.higherKey(currentKey);
-                        }
-                        if (currentKey == null) {
-                            currentKey = sentenceEnd;
-                        }
-                        String sentenceEndID = idOffsetMap.get(previousKey);
-                        sentenceBreakDelta = currentKey - sentenceEnd;
-                        if (currentKey > sentenceEnd) {
-                            sentenceEnd = currentKey;
-                        }
-                        writer.add(ms.getNewSentenceStartId(sentenceStartID));
-                        writer.add(ms.getNewSentenceEndId(sentenceEndID));
-                        writer.add(lastWhiteSpaceEvent);
-                        // calculate translated sentence
-                        writer.add(ms.getNewAltEvent());
-                        writer.add(ms.getNewAltLang(to));
-                        writer.add(lastWhiteSpaceEvent);
-
-                        String translatedString = translateLine(
-                                blockText.toString().substring(sentenceStart, sentenceEnd),
-                                from, to);
-
-                        writer.add(ms.getNewCharactersEvent(translatedString));
-                        writer.add(lastWhiteSpaceEvent);
-                        writer.add(ms.getAltEndEvent());
-                        writer.add(lastWhiteSpaceEvent);
-                        writer.add(ms.getSentenceEndEvent());
-                        writer.add(lastWhiteSpaceEvent);
-                        // set ending state for next iteration
-                        sentenceStart += sentenceLength;
-                        sentenceStartID = idOffsetMap.get(currentKey);
-                    }
-                } else if (event.getEventType() == XMLEvent.CHARACTERS
-                        && event.asCharacters().isWhiteSpace()) {
-                    lastWhiteSpaceEvent = event;
                 }
-                writer.add(event);
+            } catch (Exception ex) {
+                //don't quit on failure here just report and stop normally
+                ex.printStackTrace(System.out);
+            } finally {
+               writer.flush();
             }
-            writer.flush();
-        } catch (Exception ex) {
+        }
+        catch (XMLStreamException ex) {
+            Logger.getLogger(Translate.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace(System.out);
             throw new TranslateFault(ex.getMessage());
         }
 

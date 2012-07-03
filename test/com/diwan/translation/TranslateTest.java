@@ -248,7 +248,7 @@ public class TranslateTest {
 		byte[] xmlbytes = new byte[(int) theXMLFile.length()];
 		FileInputStream fis = new FileInputStream(theXMLFile);
 		fis.read(xmlbytes);
-		byte[] xmlout = t.translateXML(xmlbytes, "en", "ar");
+		byte[] xmlout = t.translateXML(xmlbytes, "en", "ar", Translate.TRANSLATE_AND_SHAPE);
 		String value = new String(xmlout);
         FileOutputStream fos = new FileOutputStream("alto_out.xml");
         fos.write(xmlout);

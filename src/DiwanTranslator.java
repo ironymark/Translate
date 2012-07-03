@@ -1,6 +1,27 @@
+/*------------------------------------------------------------------------------
+
+
+                     COPYRIGHT 2001-2012 DIWAN SOFTWARE LTD
+   
+                    DIWAN SOFTWARE LTD PROPRIETARY INFORMATION
+   
+        This software is supplied under the terms of a license agreement
+        or non-disclosure agreement with Diwan Software Ltd and may not
+        be copied or disclosed or modified except in accordance with the
+        terms of that agreement.
+   
+   
+   
+        FileName:       DiwanTranslator.java
+        Version:        1.0.5
+        Description:    Main class for command line utility
+
+------------------------------------------------------------------------------
+CHANGES
+1.0.5 A.Allawi - First release to Zynga
+------------------------------------------------------------------------------*/
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,37 +33,45 @@ import java.io.FileOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TestClass {
+public class DiwanTranslator {
 
 	public static void main(String[] args) throws TranslateFault {
 
 		String AppId = "6C9A92CF0DDDEF484F4C4ECEA2C82D8CE591A2AD";
 		String[] textsArray = { "I want this translated", "to something",
 				"in another language" };
+        int action = Translate.TRANSLATE_AND_SHAPE;
 
-        if (args.length == 2)
+        if (args.length >= 2)
         {
             FileInputStream fis = null;
             try {
                 System.out.println("TranslateXML");
                 Translate t = new Translate(AppId, "text/plain", "general", "username", null);
+
+                if (args.length > 2) {
+                    if (args[2].equalsIgnoreCase("translate")) {
+                        action = Translate.TRANSLATE;
+                    }
+                    else if (args[2].equalsIgnoreCase("shape")) {
+                        action = Translate.SHAPE;
+                    }
+                }
                 File theXMLFile = new File(args[0]);
                 byte[] xmlbytes = new byte[(int) theXMLFile.length()];
                 fis = new FileInputStream(theXMLFile);
                 fis.read(xmlbytes);
-                byte[] xmlout = t.translateXML(xmlbytes, "en", "ar");
-                String value = new String(xmlout);
+                byte[] xmlout = t.translateXML(xmlbytes, "en", "ar", action);
                 FileOutputStream fos = new FileOutputStream(args[1]);
                 fos.write(xmlout);
                 fos.close();
-                System.out.println(value);
             } catch (IOException ex) {
-                Logger.getLogger(TestClass.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DiwanTranslator.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 try {
                     fis.close();
                 } catch (IOException ex) {
-                    Logger.getLogger(TestClass.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DiwanTranslator.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
