@@ -5,14 +5,13 @@
 
 package com.diwan.translation;
 
-import java.io.*;
 import org.apache.commons.io.output.FileWriterWithEncoding;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.*;
+
+import java.io.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  *
@@ -244,13 +243,13 @@ public class TranslateTest {
     @Test
     public void testTranslateXML() throws Exception {
         System.out.println("TranslateXML");
-		File theXMLFile = new File("alto.xml");
+		File theXMLFile = new File("en_US.xml");
 		byte[] xmlbytes = new byte[(int) theXMLFile.length()];
 		FileInputStream fis = new FileInputStream(theXMLFile);
 		fis.read(xmlbytes);
 		byte[] xmlout = t.translateXML(xmlbytes, "en", "ar", Translate.TRANSLATE_AND_SHAPE);
 		String value = new String(xmlout);
-        FileOutputStream fos = new FileOutputStream("alto_out.xml");
+        FileOutputStream fos = new FileOutputStream("ar_EG.Test.xml");
         fos.write(xmlout);
         fos.close();
 		System.out.println(value);

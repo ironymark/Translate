@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<strings locale="en_US" revision="">
+ <pkg name="ZLocTest">
+  <string key="String1">
+   <original>ZYNGA Localization</original>
+  </string>
+  <string key="String2">
+   <original>A lonely cow has wandered into your house!</original>
+  </string>
+  <string key="ttk">
+   <original>{item,object}</original>
+   <variation index="0">{item,plural}</variation>
+   <variation index="1">{item,singular}</variation>
+  </string>
+  <string key="ttkcount">
+   <original>{count} {item,object,count}</original>
+   <variation index="0">{count} {item,plural}</variation>
+   <variation index="1">{count} {item,singular}</variation>
+  </string>
+  <string key="UserIsGender">
+   <original>{user,name} is a user.</original>
+   <variation index="0">{user,fem} is a fem.</variation>
+   <variation index="1">{user,masc} is a masc.</variation>
+  </string>
+  <string key="NumberThing">
+   <original>{count} {thing,object,count}</original>
+   <variation index="0">{count} {thing,common,plural}</variation>
+   <variation index="1">{count} {thing,common,singular}</variation>
+   <variation index="2">{count} {thing,fem,plural}</variation>
+   <variation index="3">{count} {thing,fem,singular}</variation>
+   <variation index="4">{count} {thing,masc,plural}</variation>
+   <variation index="5">{count} {thing,masc,singular}</variation>
+   <variation index="6">{count} {thing,neuter,plural}</variation>
+   <variation index="7">{count} {thing,neuter,singular}</variation>
+  </string>
+  <string key="UserAndPossessiveNumberThing">
+   <original>{user,name} and {count} {thing,object,count}</original>
+   <variation index="0">{user,fem} and her {count} {thing,common,plural}</variation>
+   <variation index="1">{user,fem} and her {count} {thing,common,singular}</variation>
+   <variation index="2">{user,fem} and her {count} {thing,fem,plural}</variation>
+   <variation index="3">{user,fem} and her {count} {thing,fem,singular}</variation>
+   <variation index="4">{user,fem} and her {count} {thing,masc,plural}</variation>
+   <variation index="5">{user,fem} and her {count} {thing,masc,singular}</variation>
+   <variation index="6">{user,fem} and her {count} {thing,neuter,plural}</variation>
+   <variation index="7">{user,fem} and her {count} {thing,neuter,singular}</variation>
+   <variation index="9">{user,masc} and his {count} {thing,common,plural}</variation>
+   <variation index="10">{user,masc} and his {count} {thing,common,singular}</variation>
+   <variation index="11">{user,masc} and his {count} {thing,fem,plural}</variation>
+   <variation index="12">{user,masc} and his {count} {thing,fem,singular}</variation>
+   <variation index="13">{user,masc} and his {count} {thing,masc,plural}</variation>
+   <variation index="14">{user,masc} and his {count} {thing,masc,singular}</variation>
+   <variation index="15">{user,masc} and his {count} {thing,neuter,plural}</variation>
+   <variation index="16">{user,masc} and his {count} {thing,neuter,singular}</variation>
+  </string>
+  <string key="UserAndInDefThing">
+   <original>{user,name} and {thing,object,count}</original>
+   <variation index="0">{user,fem} and {thing,common,definite,plural}</variation>
+   <variation index="1">{user,fem} and {thing,common,definite,singular}</variation>
+   <variation index="2">{user,fem} and {thing,common,indefinite,plural}</variation>
+   <variation index="3">{user,fem} and {thing,common,indefinite,singular}</variation>
+   <variation index="4">{user,fem} and {thing,fem,definite,plural}</variation>
+   <variation index="5">{user,fem} and {thing,fem,definite,singular}</variation>
+   <variation index="6">{user,fem} and {thing,fem,indefinite,plural}</variation>
+   <variation index="7">{user,fem} and {thing,fem,indefinite,singular}</variation>
+   <variation index="8">{user,fem} and {thing,masc,definite,plural}</variation>
+   <variation index="9">{user,fem} and {thing,masc,definite,singular}</variation>
+   <variation index="10">{user,fem} and {thing,masc,indefinite,plural}</variation>
+   <variation index="11">{user,fem} and {thing,masc,indefinite,singular}</variation>
+   <variation index="12">{user,fem} and {thing,neuter,definite,plural}</variation>
+   <variation index="13">{user,fem} and {thing,neuter,definite,singular}</variation>
+   <variation index="14">{user,fem} and {thing,neuter,indefinite,plural}</variation>
+   <variation index="15">{user,fem} and {thing,neuter,indefinite,singular}</variation>
+   <variation index="16">{user,masc} and {thing,common,indefinite,plural}</variation>
+   <variation index="17">{user,masc} and {thing,common,indefinite,singular}</variation>
+   <variation index="18">{user,masc} and {thing,common,definite,plural}</variation>
+   <variation index="19">{user,masc} and {thing,common,definite,singular}</variation>
+   <variation index="20">{user,masc} and {thing,fem,indefinite,plural}</variation>
+   <variation index="21">{user,masc} and {thing,fem,indefinite,singular}</variation>
+   <variation index="22">{user,masc} and {thing,fem,definite,plural}</variation>
+   <variation index="23">{user,masc} and {thing,fem,definite,singular}</variation>
+   <variation index="24">{user,masc} and {thing,masc,indefinite,plural}</variation>
+   <variation index="25">{user,masc} and {thing,masc,indefinite,singular}</variation>
+   <variation index="26">{user,masc} and {thing,masc,definite,plural}</variation>
+   <variation index="27">{user,masc} and {thing,masc,definite,singular}</variation>
+   <variation index="28">{user,masc} and {thing,neuter,definite,plural}</variation>
+   <variation index="29">{user,masc} and {thing,neuter,definite,singular}</variation>
+   <variation index="30">{user,masc} and {thing,neuter,indefinite,plural}</variation>
+   <variation index="31">{user,masc} and {thing,neuter,indefinite,singular}</variation>
+  </string>
+  <string key="Thing_en_US">
+   <original>a common thing</original>
+   <variation index="definite_plural">the common things</variation>
+   <variation index="definite_singular">the common thing</variation>
+   <variation index="indefinite_plural">some common things</variation>
+   <variation index="indefinite_singular">a common thing</variation>
+   <variation index="plural">common things</variation>
+   <variation index="singular">common thing</variation>
+  </string>
+  <string key="Thing_common" gender="common">
+   <original>a common thing</original>
+   <variation index="definite_plural">the common things</variation>
+   <variation index="definite_singular">the common thing</variation>
+   <variation index="indefinite_plural">some common things</variation>
+   <variation index="indefinite_singular">a common thing</variation>
+   <variation index="plural">common things</variation>
+   <variation index="singular">common thing</variation>
+  </string>
+  <string key="Thing_fem" gender="fem">
+   <original>a fem thing</original>
+   <variation index="definite_plural">the fem things</variation>
+   <variation index="definite_singular">the fem thing</variation>
+   <variation index="indefinite_plural">some fem things</variation>
+   <variation index="indefinite_singular">a fem thing</variation>
+   <variation index="plural">fem things</variation>
+   <variation index="singular">fem thing</variation>
+  </string>
+  <string key="Thing_masc" gender="masc">
+   <original>a masc thing</original>
+   <variation index="definite_plural">the masc things</variation>
+   <variation index="definite_singular">the masc thing</variation>
+   <variation index="indefinite_plural">some masc things</variation>
+   <variation index="indefinite_singular">a masc thing</variation>
+   <variation index="plural">masc things</variation>
+   <variation index="singular">masc thing</variation>
+  </string>
+  <string key="Thing_neuter" gender="neuter">
+   <original>a neuter thing</original>
+   <variation index="definite_plural">the neuter things</variation>
+   <variation index="definite_singular">the neuter thing</variation>
+   <variation index="indefinite_plural">some neuter things</variation>
+   <variation index="indefinite_singular">a neuter thing</variation>
+   <variation index="plural">neuter things</variation>
+   <variation index="singular">neuter thing</variation>
+  </string>
+  <string key="FriendsStr">
+   <original>You{user,name,silent} and {friend,name} are friends.(You{user.name.silent} and {friend.name} are friends)</original>
+   <variation index="0">You{user,fem,silent} and {friend,fem} are friends.(You{user.fem.silent} and {friend.fem} are friends)</variation>
+   <variation index="1">You{user,fem,silent} and {friend,masc} are friends.(You{user.fem.silent} and {friend.masc} are friends)</variation>
+   <variation index="2">You{user,masc,silent} and {friend,fem} are friends.(You{user.masc.silent} and {friend.fem} are friends)</variation>
+   <variation index="3">You{user,masc,silent} and {friend,masc} are friends.(You{user.masc.silent} and {friend.masc} are friends)</variation>
+  </string>
+  <string key="TeacherStr">
+   <original>You{user,name,silent} became a teacher in the Elementary School.(You{user.name.silent} became a teacher in the Elementary School)</original>
+   <variation index="0">You{user,fem,silent} became a teacher in the Elementary School.(You{user.fem.silent} became a teacher in the Elementary School)</variation>
+   <variation index="1">You{user,masc,silent} became a teacher in the Elementary School.(You{user.masc.silent} became a teacher in the Elementary School)</variation>
+  </string>
+  <string key="test020">
+   <original>This is {item,object}.</original>
+   <variation index="0">This is {item}.</variation>
+  </string>
+  <string key="test007">
+   <original>This is {item,object,indefinite,singular}.</original>
+   <variation index="0">This is {item,indefinite,singular}.</variation>
+  </string>
+  <string key="test008">
+   <original>This is {item,object,definite,singular}.</original>
+   <variation index="0">This is {item,definite,singular}.</variation>
+  </string>
+  <string key="test009">
+   <original>This is this {item,object,singular}.</original>
+   <variation index="0">This is this {item,singular}.</variation>
+  </string>
+  <string key="test010">
+   <original>This is that {item,object,singular}.</original>
+   <variation index="0">This is that {item,singular}.</variation>
+  </string>
+  <string key="test011">
+   <original>This is your {item,object,singular}.</original>
+   <variation index="0">This is your {item,singular}.</variation>
+  </string>
+  <string key="test012">
+   <original>These are all {item,object,plural}.</original>
+   <variation index="0">These are all {item,plural}.</variation>
+  </string>
+  <string key="test013">
+   <original>These are these {item,object,plural}.</original>
+   <variation index="0">These are these {item,plural}.</variation>
+  </string>
+  <string key="test014">
+   <original>These are those {item,object,plural}.</original>
+   <variation index="0">These are those {item,plural}.</variation>
+  </string>
+  <string key="test015">
+   <original>These are {item,object,indefinite,plural}.</original>
+   <variation index="0">These are {item,indefinite,plural}.</variation>
+  </string>
+  <string key="object000">
+   <original>a can with worms</original>
+   <variation index="indefinite_singular">a can with worms(indefinite_singular)</variation>
+   <variation index="definite_singular">the can with worms(definite_singular)</variation>
+   <variation index="indefinite_plural">some cans with worms(indefinite_plural)</variation>
+   <variation index="definite_plural">the cans with worms(definite_plural)</variation>
+   <variation index="singular">can with worms(singular)</variation>
+   <variation index="plural">cans with worms(plural)</variation>
+  </string>
+  <string key="test021">
+   <original>This is{nl}a test.</original>
+  </string>
+  <string key="test030">
+   <original>There are {quantity} {item,object,count}.</original>
+   <variation index="0">There are {quantity} {item,plural}.</variation>
+   <variation index="1">There are {quantity} {item,singular}.</variation>
+  </string>
+  <string key="object0031">
+   <original>a chair</original>
+   <variation index="definite_plural">the chairs(definite_plural)</variation>
+   <variation index="definite_singular">the chair(definite_singular)</variation>
+   <variation index="indefinite_plural">some chairs(indefinite_plural)</variation>
+   <variation index="indefinite_singular">a chair(indefinite_singular)</variation>
+   <variation index="plural">chairs(plural)</variation>
+   <variation index="singular">chair(singular)</variation>
+  </string>
+</pkg>
+ <pkg name="ZLocDateTimeFormats" rev="en_US__d8b11ea706722df07e9451c1f566b8b9">
+ <string key="currency" hash="7ae53d1c089ef0865712d3fca77f6725">
+  <original>${n}</original>
+ </string>
+ <string key="date" hash="f00af82649fe48e35ad10881fa50cd1b">
+  <original>{m}/{d}/{yyyy}</original>
+ </string>
+ <string key="longDate" hash="27efdac7041eed2a8011dfeac66e2328">
+  <original>{M} {d}, {yyyy}</original>
+ </string>
+ <string key="number" hash="8019e8f51e89effe6844aa8799de94be">
+  <original>,|.</original>
+ </string>
+ <string key="shortNumber" hash="8d5b9847e4c9ea0a466af15d320c31be">
+  <original>1000000000000|1000000000000|{n}T,1000000000|1000000000|{n}B,1000000|1000000|{n}M,1000|1000|{n}K</original>
+ </string>
+ <string key="duriation" hash="9bcd3676bd0abfa7f7a3925234d0fd60">
+  <original>{h}:{mm}:{ss}</original>
+ </string>
+ <string key="time" hash="1d0407a1d945772ec191f48748b3c8c8">
+  <original>{h}:{mm}:{ss}{a}</original>
+ </string>
+ <string key="am" hash="c04cd38aeb30f3ad1f8ab4e64a0ded7b">
+  <original>am</original>
+ </string>
+ <string key="pm" hash="5109d85d95fece7816d9704e6e5b1279">
+  <original>pm</original>
+ </string>
+ <string key="January" hash="86f5978d9b80124f509bdb71786e929e">
+  <original>January</original>
+ </string>
+ <string key="February" hash="659e59f062c75f81259d22786d6c44aa">
+  <original>February</original>
+ </string>
+ <string key="March" hash="fa3e5edac607a88d8fd7ecb9d6d67424">
+  <original>March</original>
+ </string>
+ <string key="April" hash="3fcf026bbfffb63fb24b8de9d0446949">
+  <original>April</original>
+ </string>
+ <string key="May" hash="195fbb57ffe7449796d23466085ce6d8">
+  <original>May</original>
+ </string>
+ <string key="June" hash="688937ccaf2a2b0c45a1c9bbba09698d">
+  <original>June</original>
+ </string>
+ <string key="July" hash="1b539f6f34e8503c97f6d3421346b63c">
+  <original>July</original>
+ </string>
+ <string key="August" hash="41ba70891fb6f39327d8ccb9b1dafb84">
+  <original>August</original>
+ </string>
+ <string key="September" hash="cc5d90569e1c8313c2b1c2aab1401174">
+  <original>September</original>
+ </string>
+ <string key="October" hash="eca60ae8611369fe28a02e2ab8c5d12e">
+  <original>October</original>
+ </string>
+ <string key="November" hash="7e823b37564da492ca1629b4732289a8">
+  <original>November</original>
+ </string>
+ <string key="December" hash="82331503174acbae012b2004f6431fa5">
+  <original>December</original>
+ </string>
+ </pkg>
+</strings>
