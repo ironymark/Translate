@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AntConfiguration">
+    <defaultAnt bundledAnt="$debug_swf$" />
+  </component>
+  <component name="ArtifactManager">
+    <artifact type="jar" name="DiwanTranslator:jar">
+      <output-path>$PROJECT_DIR$/</output-path>
+      <root id="archive" name="DiwanTranslator.jar">
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="module-output" name="DiwanTranslator" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-ant-plugin-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/woden-api-1.0M8.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-jaxws-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/geronimo-annotation_1.0_spec-1.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/activation-1.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/jaxb-impl-2.1.7.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-fastinfoset-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/neethi-2.0.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-kernel-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-mtompolicy-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/wsdl4j-1.6.2.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/xercesImpl-2.8.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axiom-api-1.2.10.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/xmlbeans-2.3.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/bcel-5.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-soapmonitor-servlet-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/mail-1.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/jaxen-1.1.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-json-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/XmlSchema-1.4.3.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-jaxbri-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-java2wsdl-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/jettison-1.0-RC2.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/mex-1.5.4-impl.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/jalopy-1.5rc3.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-codegen-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/woden-impl-dom-1.0M8.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/jaxb-xjc-2.1.7.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/regexp-1.2.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/wstx-asl-3.2.9.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-httpclient-3.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-fileupload-1.2.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-io-1.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axiom-impl-1.2.10.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-adb-codegen-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/jibx-bind-1.2.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-logging-1.1.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-adb-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-codec-1.3.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-transport-http-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-metadata-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-xmlbeans-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-jibx-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/antlr-2.7.7.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-clustering-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axiom-dom-1.2.10.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-corba-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcore-4.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/geronimo-saaj_1.3_spec-1.0.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-spring-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/tribes-6.0.16.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/juli-6.0.16.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/geronimo-stax-api_1.0_spec-1.0.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/geronimo-jaxws_2.1_spec-1.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-saaj-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/geronimo-ws-metadata_2.0_spec-1.1.2.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/geronimo-jta_1.1_spec-1.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/axis2-transport-local-1.5.4.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/jaxb-api-2.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/xalan-2.7.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/xml-resolver-1.2.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/jibx-run-1.2.1.jar" path-in-jar="/" />
+      </root>
+    </artifact>
+    <artifact name="DiwanTranslator:jar2">
+      <output-path>$PROJECT_DIR$/out/artifacts/</output-path>
+      <root id="root">
+        <element id="archive" name="DiwanTranslator.jar">
+          <element id="directory" name="META-INF">
+            <element id="file-copy" path="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
+          </element>
+          <element id="module-output" name="DiwanTranslator" />
+        </element>
+        <element id="library" level="project" name="Axis2" />
+      </root>
+    </artifact>
+  </component>
+  <component name="CompilerConfiguration">
+    <option name="DEFAULT_COMPILER" value="Javac" />
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="?*.properties" />
+      <entry name="?*.xml" />
+      <entry name="?*.gif" />
+      <entry name="?*.png" />
+      <entry name="?*.jpeg" />
+      <entry name="?*.jpg" />
+      <entry name="?*.html" />
+      <entry name="?*.dtd" />
+      <entry name="?*.tld" />
+      <entry name="?*.ftl" />
+    </wildcardResourcePatterns>
+    <annotationProcessing enabled="$optimize_swf$" useClasspath="$debug_swf$" />
+  </component>
+  <component name="CopyrightManager" default="">
+    <module2copyright />
+  </component>
+  <component name="CssXFireSettings">
+    <general autoClear="$optimize_swf$" autoExpand="$optimize_swf$" />
+    <strategy useRoutes="$optimize_swf$" mediaReduce="$optimize_swf$" fileReduce="$optimize_swf$" currentDocumentsReduce="$optimize_swf$" resolveVariables="$optimize_swf$" resolveMixins="$optimize_swf$" />
+    <routes />
+  </component>
+  <component name="DependencyValidationManager">
+    <option name="SKIP_IMPORT_STATEMENTS" value="$optimize_swf$" />
+  </component>
+  <component name="Encoding" useUTFGuessing="$debug_swf$" native2AsciiForPropertiesFiles="$optimize_swf$" />
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+  </component>
+  <component name="IdProvider" IDEtalkID="6E87B71F30E6000066E147F7F62D83A6" />
+  <component name="JavadocGenerationManager">
+    <option name="OUTPUT_DIRECTORY" />
+    <option name="OPTION_SCOPE" value="protected" />
+    <option name="OPTION_HIERARCHY" value="$debug_swf$" />
+    <option name="OPTION_NAVIGATOR" value="$debug_swf$" />
+    <option name="OPTION_INDEX" value="$debug_swf$" />
+    <option name="OPTION_SEPARATE_INDEX" value="$debug_swf$" />
+    <option name="OPTION_DOCUMENT_TAG_USE" value="$optimize_swf$" />
+    <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="$optimize_swf$" />
+    <option name="OPTION_DOCUMENT_TAG_VERSION" value="$optimize_swf$" />
+    <option name="OPTION_DOCUMENT_TAG_DEPRECATED" value="$debug_swf$" />
+    <option name="OPTION_DEPRECATED_LIST" value="$debug_swf$" />
+    <option name="OTHER_OPTIONS" value="" />
+    <option name="HEAP_SIZE" />
+    <option name="LOCALE" />
+    <option name="OPEN_IN_BROWSER" value="$debug_swf$" />
+  </component>
+  <component name="ModuleEditorState">
+    <option name="LAST_EDITED_MODULE_NAME" />
+    <option name="LAST_EDITED_TAB_NAME" />
+  </component>
+  <component name="Palette2">
+    <group name="Swing">
+      <item class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer" icon="/com/intellij/uiDesigner/icons/hspacer.png" removable="$optimize_swf$" auto-create-binding="$optimize_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="1" hsize-policy="6" anchor="0" fill="1" />
+      </item>
+      <item class="com.intellij.uiDesigner.VSpacer" tooltip-text="Vertical Spacer" icon="/com/intellij/uiDesigner/icons/vspacer.png" removable="$optimize_swf$" auto-create-binding="$optimize_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="6" hsize-policy="1" anchor="0" fill="2" />
+      </item>
+      <item class="javax.swing.JPanel" icon="/com/intellij/uiDesigner/icons/panel.png" removable="$optimize_swf$" auto-create-binding="$optimize_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3" />
+      </item>
+      <item class="javax.swing.JScrollPane" icon="/com/intellij/uiDesigner/icons/scrollPane.png" removable="$optimize_swf$" auto-create-binding="$optimize_swf$" can-attach-label="$debug_swf$">
+        <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3" />
+      </item>
+      <item class="javax.swing.JButton" icon="/com/intellij/uiDesigner/icons/button.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="0" hsize-policy="3" anchor="0" fill="1" />
+        <initial-values>
+          <property name="text" value="Button" />
+        </initial-values>
+      </item>
+      <item class="javax.swing.JRadioButton" icon="/com/intellij/uiDesigner/icons/radioButton.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
+        <initial-values>
+          <property name="text" value="RadioButton" />
+        </initial-values>
+      </item>
+      <item class="javax.swing.JCheckBox" icon="/com/intellij/uiDesigner/icons/checkBox.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
+        <initial-values>
+          <property name="text" value="CheckBox" />
+        </initial-values>
+      </item>
+      <item class="javax.swing.JLabel" icon="/com/intellij/uiDesigner/icons/label.png" removable="$optimize_swf$" auto-create-binding="$optimize_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="0" hsize-policy="0" anchor="8" fill="0" />
+        <initial-values>
+          <property name="text" value="Label" />
+        </initial-values>
+      </item>
+      <item class="javax.swing.JTextField" icon="/com/intellij/uiDesigner/icons/textField.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$debug_swf$">
+        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+          <preferred-size width="150" height="-1" />
+        </default-constraints>
+      </item>
+      <item class="javax.swing.JPasswordField" icon="/com/intellij/uiDesigner/icons/passwordField.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$debug_swf$">
+        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+          <preferred-size width="150" height="-1" />
+        </default-constraints>
+      </item>
+      <item class="javax.swing.JFormattedTextField" icon="/com/intellij/uiDesigner/icons/formattedTextField.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$debug_swf$">
+        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+          <preferred-size width="150" height="-1" />
+        </default-constraints>
+      </item>
+      <item class="javax.swing.JTextArea" icon="/com/intellij/uiDesigner/icons/textArea.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$debug_swf$">
+        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+          <preferred-size width="150" height="50" />
+        </default-constraints>
+      </item>
+      <item class="javax.swing.JTextPane" icon="/com/intellij/uiDesigner/icons/textPane.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$debug_swf$">
+        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+          <preferred-size width="150" height="50" />
+        </default-constraints>
+      </item>
+      <item class="javax.swing.JEditorPane" icon="/com/intellij/uiDesigner/icons/editorPane.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$debug_swf$">
+        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+          <preferred-size width="150" height="50" />
+        </default-constraints>
+      </item>
+      <item class="javax.swing.JComboBox" icon="/com/intellij/uiDesigner/icons/comboBox.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$debug_swf$">
+        <default-constraints vsize-policy="0" hsize-policy="2" anchor="8" fill="1" />
+      </item>
+      <item class="javax.swing.JTable" icon="/com/intellij/uiDesigner/icons/table.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+          <preferred-size width="150" height="50" />
+        </default-constraints>
+      </item>
+      <item class="javax.swing.JList" icon="/com/intellij/uiDesigner/icons/list.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="6" hsize-policy="2" anchor="0" fill="3">
+          <preferred-size width="150" height="50" />
+        </default-constraints>
+      </item>
+      <item class="javax.swing.JTree" icon="/com/intellij/uiDesigner/icons/tree.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+          <preferred-size width="150" height="50" />
+        </default-constraints>
+      </item>
+      <item class="javax.swing.JTabbedPane" icon="/com/intellij/uiDesigner/icons/tabbedPane.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
+          <preferred-size width="200" height="200" />
+        </default-constraints>
+      </item>
+      <item class="javax.swing.JSplitPane" icon="/com/intellij/uiDesigner/icons/splitPane.png" removable="$optimize_swf$" auto-create-binding="$optimize_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
+          <preferred-size width="200" height="200" />
+        </default-constraints>
+      </item>
+      <item class="javax.swing.JSpinner" icon="/com/intellij/uiDesigner/icons/spinner.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$debug_swf$">
+        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
+      </item>
+      <item class="javax.swing.JSlider" icon="/com/intellij/uiDesigner/icons/slider.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
+      </item>
+      <item class="javax.swing.JSeparator" icon="/com/intellij/uiDesigner/icons/separator.png" removable="$optimize_swf$" auto-create-binding="$optimize_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3" />
+      </item>
+      <item class="javax.swing.JProgressBar" icon="/com/intellij/uiDesigner/icons/progressbar.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1" />
+      </item>
+      <item class="javax.swing.JToolBar" icon="/com/intellij/uiDesigner/icons/toolbar.png" removable="$optimize_swf$" auto-create-binding="$optimize_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
+          <preferred-size width="-1" height="20" />
+        </default-constraints>
+      </item>
+      <item class="javax.swing.JToolBar$Separator" icon="/com/intellij/uiDesigner/icons/toolbarSeparator.png" removable="$optimize_swf$" auto-create-binding="$optimize_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="0" hsize-policy="0" anchor="0" fill="1" />
+      </item>
+      <item class="javax.swing.JScrollBar" icon="/com/intellij/uiDesigner/icons/scrollbar.png" removable="$optimize_swf$" auto-create-binding="$debug_swf$" can-attach-label="$optimize_swf$">
+        <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
+      </item>
+    </group>
+  </component>
+  <component name="ProjectDictionaryState">
+    <dictionary name="adilmbpro">
+      <words>
+        <w>motd</w>
+        <w>virals</w>
+      </words>
+    </dictionary>
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Abstraction issues</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DiwanTranslator.iml" filepath="$PROJECT_DIR$/DiwanTranslator.iml" />
+    </modules>
+  </component>
+  <component name="ProjectResources">
+    <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="$debug_swf$" jdk-15="$debug_swf$" project-jdk-name="1.6" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="" />
+  </component>
+  <component name="libraryTable">
+    <library name="Axis2">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/axis2-ant-plugin-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/woden-api-1.0M8.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-jaxws-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/geronimo-annotation_1.0_spec-1.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/activation-1.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxb-impl-2.1.7.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-fastinfoset-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/neethi-2.0.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-kernel-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-mtompolicy-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/wsdl4j-1.6.2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/xercesImpl-2.8.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axiom-api-1.2.10.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/xmlbeans-2.3.0.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/bcel-5.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-soapmonitor-servlet-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/mail-1.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxen-1.1.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-json-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/XmlSchema-1.4.3.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-jaxbri-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-java2wsdl-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jettison-1.0-RC2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/mex-1.5.4-impl.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jalopy-1.5rc3.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-codegen-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/woden-impl-dom-1.0M8.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxb-xjc-2.1.7.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/regexp-1.2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/wstx-asl-3.2.9.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/commons-httpclient-3.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/commons-fileupload-1.2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/commons-io-1.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axiom-impl-1.2.10.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-adb-codegen-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jibx-bind-1.2.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/commons-logging-1.1.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-adb-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/commons-codec-1.3.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-transport-http-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-metadata-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-xmlbeans-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-jibx-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/antlr-2.7.7.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-clustering-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axiom-dom-1.2.10.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-corba-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/httpcore-4.0.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/geronimo-saaj_1.3_spec-1.0.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-spring-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/tribes-6.0.16.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/juli-6.0.16.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/geronimo-stax-api_1.0_spec-1.0.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/geronimo-jaxws_2.1_spec-1.0.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-saaj-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/geronimo-ws-metadata_2.0_spec-1.1.2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/geronimo-jta_1.1_spec-1.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/axis2-transport-local-1.5.4.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxb-api-2.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/xalan-2.7.0.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/xml-resolver-1.2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jibx-run-1.2.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+  </component>
+  <component name="uidesigner-configuration">
+    <option name="INSTRUMENT_CLASSES" value="$optimize_swf$" />
+  </component>
+</project>
+

@@ -2,5 +2,7 @@
 /out.txt
 /alto_out.xml
 .DS_Store
+*.iws
+/old
 /dist
 private/
