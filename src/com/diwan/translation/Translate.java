@@ -65,6 +65,7 @@ public class Translate {
 		    "MOTD",
 		    "Tabs",
 		    "Virals",
+			"Help",
 		    "mfs_search_text",
 		    "Suspension_Line_One",
 		    "Suspension_Line_Two",
@@ -85,8 +86,25 @@ public class Translate {
 		    "Footer_PrivacyPolicy",
 		    "Footer_TOS",
 		    "Footer_ReportAbuse",
-		    "Footer_Help"
-    };
+		    "Footer_Help",
+			"Browser_Insufficient_Version_Firefox_Line_One",
+			"Browser_Insufficient_Version_Firefox_Line_Two",
+			"Browser_Insufficient_Version_Explorer_Line_One",
+			"Browser_Insufficient_Version_Explorer_Line_Two",
+			"Browser_Insufficient_Version_Explorer_Update_Link",
+			"Browser_Insufficient_Version_Chrome_Line_One",
+			"Browser_Insufficient_Version_Chrome_Line_Two",
+			"Browser_Insufficient_Version_Chrome_Update_Link",
+			"Browser_Insufficient_Version_Safari_Line_One",
+			"Browser_Insufficient_Version_Safari_Line_Two",
+			"Browser_Insufficient_Version_Safari_Update_Link",
+			"Browser_Insufficient_Version_Opera_Line_One",
+			"Browser_Insufficient_Version_Opera_Line_Two",
+			"Browser_Insufficient_Version_Opera_Update_Link",
+			"Browser_Insufficient_Version_Unknown_Line_One",
+			"Browser_Insufficient_Version_Unknown_Line_Two",
+			"Browser_Insufficient_Version_Unknown_Update_Link"
+	};
 
     /**
      * Constructs class with default parameters.
