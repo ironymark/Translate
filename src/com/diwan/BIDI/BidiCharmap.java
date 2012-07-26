@@ -314,7 +314,8 @@ public abstract class BidiCharmap {
     private static class translationArabic extends DefaultCharmap {
 	private translationArabic() {
 	    super("English");
-        setMap(L, "{}_&;");
+		setMap(L, "_&;<>");
+		setMap(L, "{}"); //TODO: change this to R to make variables rtl
 	}
     }
 

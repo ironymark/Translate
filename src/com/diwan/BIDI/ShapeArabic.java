@@ -323,7 +323,7 @@ public class ShapeArabic {
         {0, 0, 0, 0},
         {0, 0, 0, 0},
         {0, 0, 0, 0},
-        {0xfe0d, 0xfe0d, 0xfe0d, 0xfe0d},
+        {0xfe75, 0xfe75, 0xfe75, 0xfe75},
         {0xfed1, 0xfed2, 0xfed3, 0xfed4},
         {0xfed5, 0xfed6, 0xfed7, 0xfed8},
         {0xfed9, 0xfeda, 0xfedb, 0xfedc},
@@ -598,7 +598,15 @@ public class ShapeArabic {
                 BidiReference bidi = new BidiReference(codes, (byte) 1);
                 int[] reorder = bidi.getReordering(new int[]{codes.length});
                 for (int n = 0; n < outputArray.length; n++) {
-                    result.append(outputArray[reorder[n]]);
+	                char c = outputArray[reorder[n]];
+	                if (codes[reorder[n]] == BidiReference.R)
+	                {
+		                if (c == '{')
+			                c = '}';
+		                else if (c == '}')
+		                    c = '{';
+	                }
+	                result.append(c);
                 }
             }
             else

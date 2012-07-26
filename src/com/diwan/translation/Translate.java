@@ -23,17 +23,23 @@ CHANGES
 package com.diwan.translation;
 
 import com.diwan.BIDI.ShapeArabic;
-import java.rmi.RemoteException;
-import java.util.*;
-import org.apache.axis2.AxisFault;
 import com.diwan.soap.SoapServiceStub;
 import com.diwan.soap.SoapServiceStub.*;
-import java.io.*;
-import java.lang.String;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.axis2.AxisFault;
+
 import javax.xml.stream.*;
 import javax.xml.stream.events.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.lang.String;
+import java.rmi.RemoteException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Reham Diwan Software Limited
@@ -51,7 +57,36 @@ public class Translate {
     public static final int TRANSLATE = 1;
     public static final int SHAPE = 2;
     public static final int TRANSLATE_AND_SHAPE = 3;
-    public static final String[] EXCEPTIONS = {"Virals", "mfs_search_text"};
+	public static final String[] FORCE = {
+			"out_of_visit_energy",
+			"viral_sent"
+	};
+	public static final String[] EXCEPTIONS = {
+		    "MOTD",
+		    "Tabs",
+		    "Virals",
+		    "mfs_search_text",
+		    "Suspension_Line_One",
+		    "Suspension_Line_Two",
+		    "Suspension_Line_Three",
+		    "Suspension_Line_Four",
+		    "Suspension_Line_Five",
+		    "Banned_Line_One",
+		    "Banned_Line_Two",
+		    "Banned_Line_Three",
+		    "Banned_Line_Four",
+		    "Warning_Line_One",
+		    "Warning_Line_Two",
+		    "Warning_Line_Three",
+		    "Warning_Line_Four",
+		    "Footer_Support",
+		    "Footer_Forums",
+		    "Footer_FanPage",
+		    "Footer_PrivacyPolicy",
+		    "Footer_TOS",
+		    "Footer_ReportAbuse",
+		    "Footer_Help"
+    };
 
     /**
      * Constructs class with default parameters.
@@ -564,14 +599,16 @@ public class Translate {
         Boolean inTranslateable = false;
         Boolean inString = false;
         Boolean dontShapePkg = false;
+	    Boolean force_shape = false;
         Boolean dontShapeString = false;
         boolean skipVariation = false;
         Boolean stopNow = false;
         Boolean inPackage = false;
-        
-        HashSet exceptions = new HashSet (Arrays.asList(EXCEPTIONS));
 
-        if (stub == null) {
+	    HashSet exceptions = new HashSet (Arrays.asList(EXCEPTIONS));
+	    HashSet force_exceptions = new HashSet (Arrays.asList(FORCE));
+
+	    if (stub == null) {
             init();
         }
 
@@ -586,7 +623,7 @@ public class Translate {
                     if (event.getEventType() == XMLEvent.START_ELEMENT) {
                         StartElement startEvent = event.asStartElement();
                         String startEventName = startEvent.getName().getLocalPart();
-                        
+
                         if (startEventName.equalsIgnoreCase("pkg")) {
                             inPackage = true;
                             String name = iterateAttibutes(startEvent, "name");
@@ -598,7 +635,9 @@ public class Translate {
                             String key = iterateAttibutes(startEvent, "key");
                             if (exceptions.contains(key))
                                 dontShapeString = true;
-                            System.out.print(key + ": ");
+	                        if (force_exceptions.contains(key))
+		                        force_shape = true;
+	                        System.out.print(key + ": ");
                         } else if (startEventName.equalsIgnoreCase("original")) {
                             inTranslateable = true;
                             blockText = new StringBuffer();
@@ -606,7 +645,7 @@ public class Translate {
                                 && action != TRANSLATE_AND_SHAPE) {
                             inTranslateable = true;
                             blockText = new StringBuffer();
-                        }                            
+                        }
                         else if (startEventName.equalsIgnoreCase("variation")) {
                             skipVariation = true;
                         }
@@ -623,6 +662,7 @@ public class Translate {
                         else if (endEventName.equalsIgnoreCase("string")) {
                             inString = false;
                             dontShapeString = false;
+	                        force_shape = false;
                         }
                         else if (endEventName.equalsIgnoreCase("original") || endEventName.equalsIgnoreCase("variation"))
                         {
@@ -633,9 +673,9 @@ public class Translate {
                                 skipVariation = false;
                             }
                             if (blockText.toString().length() > 0) {
-                                if ((action == TRANSLATE_AND_SHAPE || action == SHAPE)
-                                        && !dontShapePkg
-                                        && !dontShapeString) {
+	                            Boolean canShape = (!dontShapePkg && !dontShapeString) || force_shape;
+                                if ((action == TRANSLATE_AND_SHAPE || action == SHAPE) && canShape)
+                                {
                                     ShapeArabic shaper = new ShapeArabic(blockText.toString());
                                     writer.add(ms.getNewCharactersEvent(shaper.getReorderedAndShaped()));
                                 } else {
@@ -834,8 +874,6 @@ public class Translate {
         }
 
         /**
-         * @param args
-         *            the command line arguments
          * @throws XMLStreamException
          * @throws IOException
          */
