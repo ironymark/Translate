@@ -58,6 +58,7 @@ public class Translate {
 		    "MOTD",
 		    "Tabs",
 		    "Virals",
+			"FlashUpdate",
 			"Help",
 		    "mfs_search_text",
 		    "Suspension_Line_One",
@@ -96,7 +97,8 @@ public class Translate {
 			"Browser_Insufficient_Version_Opera_Update_Link",
 			"Browser_Insufficient_Version_Unknown_Line_One",
 			"Browser_Insufficient_Version_Unknown_Line_Two",
-			"Browser_Insufficient_Version_Unknown_Update_Link"
+			"Browser_Insufficient_Version_Unknown_Update_Link",
+			"HUD_assets_left"
 	};
 
     /**

@@ -323,7 +323,7 @@ public class ShapeArabic {
         {0, 0, 0, 0},
         {0, 0, 0, 0},
         {0, 0, 0, 0},
-        {0xfe75, 0xfe75, 0xfe75, 0xfe75},
+        {0xfe0d, 0xfe0d, 0xfe0d, 0xfe0d},
         {0xfed1, 0xfed2, 0xfed3, 0xfed4},
         {0xfed5, 0xfed6, 0xfed7, 0xfed8},
         {0xfed9, 0xfeda, 0xfedb, 0xfedc},
@@ -606,6 +606,10 @@ public class ShapeArabic {
 		                else if (c == '}')
 		                    c = '{';
 	                }
+	                if (c == '(')
+		                c = ')';
+	                else if (c == ')')
+		                c = '(';
 	                result.append(c);
                 }
             }
