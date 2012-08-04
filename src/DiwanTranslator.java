@@ -37,7 +37,7 @@ public class DiwanTranslator {
 		String AppId = "6C9A92CF0DDDEF484F4C4ECEA2C82D8CE591A2AD";
 		String[] textsArray = { "I want this translated", "to something",
 				"in another language" };
-        int action = Translate.TRANSLATE_AND_SHAPE;
+        int action = Translate.SHAPE;
 
         if (args.length >= 2)
         {
@@ -46,14 +46,6 @@ public class DiwanTranslator {
                 System.out.println("TranslateXML");
                 Translate t = new Translate(AppId, "text/plain", "general", "username", null);
 
-                if (args.length > 2) {
-                    if (args[2].equalsIgnoreCase("translate")) {
-                        action = Translate.TRANSLATE;
-                    }
-                    else if (args[2].equalsIgnoreCase("shape")) {
-                        action = Translate.SHAPE;
-                    }
-                }
                 File theXMLFile = new File(args[0]);
                 byte[] xmlbytes = new byte[(int) theXMLFile.length()];
                 fis = new FileInputStream(theXMLFile);

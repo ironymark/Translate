@@ -5,10 +5,10 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="$optimize_swf$" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="$debug_swf$" />
+      <excludeFolder url="file://$MODULE_DIR$/src/com/diwan/soap" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="$optimize_swf$" />
-    <orderEntry type="library" name="Axis2" level="project" />
     <orderEntry type="library" name="junit4" level="application" />
   </component>
 </module>
