@@ -285,7 +285,15 @@ public abstract class BidiCharmap {
         public void convert(char[] chars, int charStart, byte[] codes, int codeStart, int count) {
             for (int i = 0; i < count; ++i) {
                 char theChar = chars[charStart+i];
-                if (theChar <= 0x7f)
+	            if (i > 0 && i < (count - 1)
+			            && theChar == ' '
+			            && chars[charStart+i - 1] == '}'
+			            && chars[charStart+i+1] == '{')
+	            {
+		            //treat space in '} {' as R so that consecutive variables are swapped
+		            codes[codeStart + i] = R;
+	            }
+                else if (theChar <= 0x7f)
                     codes[codeStart + i] = map[theChar];
                 else if (theChar >= 0x0600 && theChar <= 0x06fe)
                     codes[codeStart + i] = arabicMap[theChar - 0x0600];
